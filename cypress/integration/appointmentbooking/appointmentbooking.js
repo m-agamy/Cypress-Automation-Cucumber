@@ -1,23 +1,24 @@
 import { Given, When, And, Then } from "cypress-cucumber-preprocessor/steps";
+import appointmentbookingPage_PO from "../../support/pageObjects/appointmentbookingPage";
+import HomePage_PO from "../../support/pageObjects/homePage";
 
-  Given('I access Maiia Home page', () => {
-        cy.visit('https://www.staging.maiia.com/');
-        cy.title().should('eq','Maiia - RDV médical et Téléconsultation - Professionnels de santé');
-    })
-    
-    When('I search for dr QATECHNIQUE', () =>{
-        cy.get('#downshift_input_0').type('Test QATECHNIQUE{enter}');
-        cy.wait(3000);
-        cy.get('#downshift-simple-item-0').click();
-        cy.title().should('eq','Maiia - RDV médical et Téléconsultation - Professionnels de santé');
-    })
-    
-    
-    And('I select Reason for consultation Thread removal', () => {
-        cy.get('#consultationReasonName').click();
-        cy.get('[data-cy="Ablation de fils"]').click();
-    })
-    
-    Then('I should be presented with Consultation Time Table', () => {
-        cy.get('.search-card__rdv.availability-calendar.percy-hidden').should('be.visible');
-    })
+const homepage_po = new HomePage_PO();
+const appointmentbookingpage_po = new appointmentbookingPage_PO();
+
+Given('I access Maiia Home page', () => {
+
+    homepage_po.visitHomePage();
+})
+
+When('I search for dr QATECHNIQUE', () => {
+    homepage_po.searchForDr();
+})
+
+
+And('I select Reason for consultation Thread removal', () => {
+    appointmentbookingpage_po.selectConsultationeReasonThreadRemoval();
+})
+
+Then('I should be presented with Consultation Time Table', () => {
+    appointmentbookingpage_po.consultationTimeTable();
+})
